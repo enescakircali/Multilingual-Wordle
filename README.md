@@ -2,29 +2,37 @@
 
 Play the game online here: [Multilingual Wordle](https://enescakircali.github.io/Multilingual-Wordle/)
 
-**Multilingual Wordle** is a fresh take on the classic Wordle game with a unique twist — guess not just one, but *two words* or words of *random lengths* in multiple languages! Challenge your vocabulary skills and language knowledge all at once.
+**Multilingual Wordle** is a unique, language-flexible word game inspired by the classic Wordle — but it's not just a clone. It takes the idea of word-guessing and transforms it into something new and challenging.
 
-## Supported Languages
+Instead of guessing just one fixed-length word, each round can include:
+- **Two words** to guess instead of one
+- **Random word lengths** to make things unpredictable
 
-- Japanese (日本語)  
-- Turkish (Türkçe)  
-- English  
+And here's the twist: you play the entire game in the language you choose!
 
-## How to Play
+## 🌍 Supported Languages
 
-- Guess the words by typing letters into the input.  
-- The game will give you feedback on each guess, helping you get closer to the correct answers.  
-- You can play with words in different languages, adding a multicultural flavor to the challenge.  
-- Each game round has either two words or a single word with varying length to keep things exciting and unpredictable.
+- 🇯🇵 **Japanese** (日本語)
+- 🇹🇷 **Turkish** (Türkçe)
+- 🇬🇧 **English**
 
-## Features
+Choose your language from the top corner and enjoy the full game experience in that language only.
 
-- Supports Japanese, Turkish, and English.  
-- Random word lengths keep the game fresh and challenging.  
-- Simple, clean, and intuitive interface.
+## 🎮 How to Play
 
-Give your brain a workout and explore words from different cultures with **Multilingual Wordle**!
+- Select your preferred language from the top-right corner.
+- Type your guesses — feedback will help you find the correct words.
+- Use logic and vocabulary knowledge to solve the puzzle.
+- Each game may have different rules: double words or unpredictable word lengths!
+
+## ✨ Features
+
+- Inspired by Wordle, but with new mechanics and challenges
+- Three fully supported languages: Turkish, English, and Japanese
+- Randomized game structure for each round
+- Clean, intuitive design for fast and fun gameplay
+
+Challenge yourself across languages — train your brain and have fun with **Multilingual Wordle**!
 
 ---
-
 Enjoy the challenge and happy guessing!
