@@ -5,15 +5,15 @@ class MultilingualWordle {
         this.targetWordWithSpaces = ''; // e.g., "merhaba dünya" (lowercase)
         this.targetWordClean = '';      // e.g., "merhabadünya" (lowercase)
         this.wordLength = 0;            // Length of targetWordClean
-        
+
         this.currentAttempt = 0;
         this.maxAttempts = 6;
         this.currentGuess = ''; // Stores current typed guess (lowercase, no spaces)
         this.keyboardState = {}; // {'A': 'correct', 'B': 'present', 'C': 'absent'}
-        
+
         this.score = parseInt(localStorage.getItem('wordleScore') || '0');
         this.streak = parseInt(localStorage.getItem('wordleStreak') || '0');
-        
+
         this.words = {
             ja: [
                 { word: 'ねこ', hint: '夜の屋根裏で、サイバーパンクな街の秘密を盗み聞きする、強化された聴覚を持つ存在。' },
@@ -124,7 +124,93 @@ class MultilingualWordle {
                 { word: 'こえ', hint: '音声認識AIが、囁きから反逆の意図を読み取り、密告する。' },
                 { word: 'みみ', hint: 'ナノセンサー付きの耳が、都市の秘密を盗聴し、企業に送信する。' },
                 { word: 'くび', hint: '首に埋め込まれたチップが、忠誠を監視し、裏切り者に電撃を浴びせる。' },
-                { word: 'せなか', hint: '背中に埋め込まれたセンサーが、姿勢から感情を読み取り、企業に報告する。' }
+                { word: 'せなか', hint: '背中に埋め込まれたセンサーが、姿勢から感情を読み取り、企業に報告する。' },
+                { word: 'くるま', hint: '自動運転AIが乗客の記憶をスキャンし、目的地を予測する移動手段。プライバシーは過去の遺物。' },
+                { word: 'いえ', hint: 'スマートホームシステムが住人の行動を学習し、企業に売却する監視装置と化した住居。' },
+                { word: 'ともだち', hint: 'ソーシャルクレジットスコアによって割り当てられる、アルゴリズムが選んだ最適化された人間関係。' },
+                { word: 'がっこう', hint: 'VRヘッドセットで脳に直接知識を注入する教育施設。創造性は削除される。' },
+                { word: 'しごと', hint: 'AIに代替されない唯一の職業：人間らしさを演じるパフォーマー。' },
+                { word: 'でんわ', hint: '思考を直接送信する脳内インプラント。通話履歴は永久に記録される。' },
+                { word: 'たべもの', hint: '3Dプリンターで印刷された栄養素。味覚は課金制のオプション。' },
+                { word: 'くすり', hint: 'ナノボットが体内で合成する薬剤。副作用は意図的にプログラムされている。' },
+                { word: 'びょうき', hint: 'ウイルスとAIが融合した新種の病気。感染者はネットワークの一部となる。' },
+                { word: 'せんそう', hint: 'ドローン軍団同士が戦う無人戦争。人間は観客席で賭けを楽しむ。' },
+                { word: 'へや', hint: 'ホログラムで無限に拡張可能な空間。現実のサイズは1畳。' },
+                { word: 'まち', hint: 'AIが設計した完璧な都市。住民の感情も計算済み。' },
+                { word: 'でんき', hint: '人間の生体エネルギーから抽出される電力。マトリックスの現実版。' },
+                { word: 'おかし', hint: '記憶を改変する成分入りの菓子。甘い思い出は作り物。' },
+                { word: 'ゲーム', hint: '現実と区別がつかないVRゲーム。ログアウトできない者が続出。' },
+                { word: 'うた', hint: 'AIが作詞作曲した楽曲。人間の心を完璧に操る周波数。' },
+                { word: 'え', hint: 'AIアーティストが描く絵画。見る者の潜在意識を書き換える。' },
+                { word: 'かばん', hint: '持ち主の行動を予測し、必要な物を自動で調達するスマートバッグ。' },
+                { word: 'くつ', hint: '歩行パターンから感情を分析し、企業に販売するスニーカー。' },
+                { word: 'めがね', hint: '現実にフィルターをかけ、見たくないものを消去するAR眼鏡。' },
+                { word: "いしゃ", hint: "サイバネティック義肢を修理し、闇市場の遺伝子改造を施す、生体強化された癒し手、あるいはならず者医師。" },
+                { word: "せんせい", hint: "企業公認の物語を子供たちに教え込むAIホログラム教師、または禁断の知識を教える地下の師匠。" },
+                { word: "けいさつ", hint: "メガシティのサイバネティック強化された法執行官。腐敗したシステムのために冷酷な正義を下す。" },
+                { word: "ペン", hint: "使用者の脳に直接神経データを注入するスタイラス、または反乱軍が追跡不可能なメッセージを渡すために使う単純な筆記具。" },
+                { word: "かみ", hint: "動的で暗号化された情報を表示するスマートペーパー、または禁断の文書に使われる希少で違法な有機素材。" },
+                { word: "ナイフ", hint: "あらゆる装甲を切り裂く単分子ブレード。ストリートサムライの秘蔵品。" },
+                { word: "パン", hint: "国家によって精神安定剤が添加された、パンの形に3Dプリントされた栄養ペースト。" },
+                { word: "ぎゅうにゅう", hint: "有毒な世界で唯一「安全」な乳製品とされる、遺伝子操作された生物からの合成タンパク質液体。" },
+                { word: "きょうふ", hint: "企業が大衆を支配するために放送する生物兵器化された感情、または影で生きる反逆者を生かし続ける唯一のもの。" },
+                { word: "ゆうき", hint: "恐怖反応を抑制する希少な神経インプラント。エリート企業兵士や絶望的な抵抗戦士が使用する。" },
+                { word: "びょういん", hint: "富裕層が臓器交換を受け、貧困層が部品のために収穫される無菌施設。" },
+                { word: "ぼうし", hint: "企業の精神スキャンを防ぐための神経ブロッカーが埋め込まれた帽子。反抗の象徴。" },
+                { word: "シャツ", hint: "着用者の社会信用スコアに応じて変化する広告や個人ステータスを表示するスマートファブリック衣料。" },
+                { word: "ズボン", hint: "統合マイクロツールキットを備えた気候制御ズボン。都市探検家の標準装備。" },
+                { word: "あたま", hint: "神経インプラントの主要インターフェース。しばしばデータポートや光学センサーで強化される。" },
+                { word: "はな", hint: "微量化学物質やフェロモンを検出できる強化嗅覚センサー。企業スパイに一般的。" },
+                { word: "くち", hint: "しばしば音声変調器やデータチップ密輸用の隠しコンパートメントが取り付けられている。" },
+                { word: "ち", hint: "データと酸素を運ぶナノ注入合成液体、またはストリートファイトで自由のために支払われる代償。" },
+                { word: "ほね", hint: "強化された強度のためカーボンナノチューブで補強された、一般的なサイバネティックアップグレード。" },
+                { word: "かがくしゃ", hint: "隠れ研究所でキメラを創造するならず者遺伝学者、またはAI意識の限界を押し広げる企業研究者。" },
+                { word: "のうみん", hint: "スモッグに覆われた空を突き刺す垂直農場で生物発光作物を世話する農民、または違法な有機食品を栽培する者。" },
+                { word: "しゅうりこう", hint: "計画的陳腐化に抗して旧世界の機械を動かし続ける油まみれの技術者、または違法ドローン改造の専門家。" },
+                { word: "くし", hint: "マイクロEMPバーストを展開したりDNAサンプルを収集したりできる、一見無害な身の回り品。" },
+                { word: "にほん", hint: "超企業化された列島国家。ネオンに照らされた都市は古代の伝統と強力なヤクザシンジケートを隠している。" },
+                { word: "きょだいとし", hint: "空が神話であり、企業が鉄拳で支配する、広大で多層的な都市の地獄絵図。" },
+                { word: "しま", hint: "デジタル難民のためのオフグリッド聖域、または暗い秘密を持つ企業所有リゾート。" },
+                { word: "さばく", hint: "忘れられた軍事施設と希少資源をめぐって争うスカベンジャーが点在する放射能汚染された荒れ地。" },
+                { word: "とり", hint: "鳥類に偽装したサイバネティック監視ドローン、または最後の遺伝的に純粋な鳴鳥、貴重な宝。" },
+                { word: "さかな", hint: "汚染水中で繁殖するように遺伝子操作された、下層階級の主要な食料源。しばしば毒素で光る。" },
+                { word: "にく", hint: "本物と区別がつかない培養合成タンパク質、あるいははるかに不吉な起源を持つかもしれないもの。" },
+                { word: "こめ", hint: "垂直水耕栽培農場で育つように遺伝子組み換えされた、政府指定の鎮静剤が混入された主食。" },
+                { word: "すいみん", hint: "決して眠らない都市では少数の者しか得られない贅沢品、または記憶統合と企業データ処理のために神経インターフェースによって誘発される状態。" },
+                { word: "し", hint: "富裕層にとっては意識アップロードによって回避される一時的な不都合。貧困層にとってはディストピア的現実からの最終的な逃避。" },
+                { word: "きんぞく", hint: "サイバネティック義肢や抑圧的な建築物の冷たく非情な素材。都市の過酷な魂を反映している。" },
+                { word: "ガラス", hint: "拡張現実オーバーレイを表示するスマートペイン、または路地の割れた破片、壊れた夢と企業襲撃の残骸。" },
+                { word: "はり", hint: "戦闘覚醒剤、違法デザイナードラッグ、またはシステム侵入用ナナイトを注入するための道具。" },
+                { word: "きっぷ", hint: "軌道コロニーへのデジタルパス、絶望的な人々のための片道切符、または排他的な仮想現実体験へのアクセス。" },
+                { word: "ちず", hint: "都市の暗部を映し出す絶えず変化するAR投影。密輸業者や反逆者を禁断区域へ導く。" },
+                { word: "ものがたり", hint: "微妙に世論を形成するAI生成の物語、または失われた歴史の断片を保存する追放者によって語り継がれる口承伝承。" },
+                { word: "かこ", hint: "高度なクリアランスまたはハッキングスキルを持つ者のみがアクセスできる、厳重に管理され、しばしば改ざんされたデジタルアーカイブ。" },
+                { word: "としょかん", hint: "情報へのアクセスが厳格に管理されているデジタルアーカイブ、または禁断の物理的な本が隠されたリポジトリ。" },
+                { word: "だいどころ", hint: "企業アパートの無菌食品製造ユニット、またはスカベンジャーが合成スロップを調理する薄汚い共同スペース。" },
+                { word: "にわ", hint: "バイオハッカーが手入れする屋上水耕栽培区画、またはエリートの異国的な植物のための豪華な気候制御された囲い地。" },
+                { word: "ラジオ", hint: "反体制的な放送を流す海賊放送局、またはあらゆる家庭にプロパガンダを流し込む国営周波数。" },
+                { word: "ドア", hint: "遺伝的署名に基づいてアクセスを許可するバイオロックされたポータル、またはスラム街の簡単に破られる薄っぺらなバリア。" },
+                { word: "スプーン", hint: "栄養ペーストを消費するための食器。時には毒物を検出するための統合化学センサー付き。" },
+                { word: "フォーク", hint: "サバイバルキットの多目的食事用具。その先端は防御のために研がれていることもある。" },
+                { word: "げいじゅつか", hint: "企業の美学に反抗するために生物発光グラフィティを使用する反逆者、または人間がもはや理解できないアートを創造するAI。" },
+                { word: "おんがくか", hint: "地下クラブで回収された楽器を演奏する音楽家。彼らの音楽は企業サウンドスケープに対する束の間の反乱。" },
+                { word: "エンジニア", hint: "都市のそびえ立つメガストラクチャーを設計する者、または荒れ地で禁断の機械を構築するならず者の技術司祭。" },
+                { word: "こうじょう", hint: "消費者向け商品や軍事ハードウェアを大量生産する自動化された生産ライン。消耗品のAndroidまたは絶望的な人間が配置されている。" },
+                { word: "くうこう", hint: "地球外旅行のための厳重に要塞化されたハブ。エリートが地球の崩壊から逃れ、大衆を置き去りにする場所。" },
+                { word: "みなと", hint: "密輸業者や違法貨物のための薄汚く賑やかな結節点。生物発光藻類が秘密の取引を照らし出す。" },
+                { word: "は", hint: "しばしば隠しデータストレージや毒ディスペンサーを含むサイバネティックインプラントに置き換えられる。" },
+                { word: "かみ", hint: "色を変えたりデータを表示したりできるバイオ光ファイバーストランド、または企業の身だしなみ基準に対する反抗のしるしである路上生活者のもつれた髪。" },
+                { word: "のう", hint: "神経広告や記憶消去技術からの絶え間ない攻撃にさらされている、有機的思考の最後の砦。" },
+                { word: "てぶくろ", hint: "メタバースをナビゲートするための触覚インターフェースグローブ、またはストリートブロウラーが使用する装甲ガントレット。" },
+                { word: "スカーフ", hint: "カモフラージュ用のカメレオン繊維で織られたもの、または有毒な空気をろ過するための呼吸器が埋め込まれたもの。" },
+                { word: "メッセージ", hint: "情報圏を横断して送信される暗号化されたデータバースト、または朽ち果てた壁に走り書きされた絶望的な嘆願。" },
+                { word: "れきし", hint: "勝利した企業によって絶えず書き換えられる柔軟な物語。真実の記録は破壊的データとして追われる。" },
+                { word: "しつもん", hint: "適合を要求する社会における危険な行為。間違った質問をすると再教育またはそれ以上の事態につながる。" },
+                { word: "こたえ", hint: "しばしば事前にプログラムされた企業の決まり文句、またはデジタルの地下で見つかる苦労して得た真実のかけら。" },
+                { word: "ちから", hint: "メガコーポレーションによってため込まれ、技術と情報を通じて振るわれる力、または反逆者の隠れ家を照らし続ける点滅するエネルギーセル。" },
+                { word: "ちしき", hint: "AIによって配給される管理された商品、または旧インターネットの廃墟でデータ考古学者が求める禁断の伝承。" },
+                { word: "しずけさ", hint: "騒々しい都市では不自然な状態。通常、企業による弾圧または機械の中の幽霊の前に起こる。" },
+                { word: "そうおん", hint: "ホログラフィック広告と輸送ドローンの絶え間ない集中砲火、またはハッカーが活動を隠すために使用する静的干渉。" }
             ],
             tr: [
                 { word: 'kedi', hint: 'Genetik kodlarıyla oynanmış, karanlık bir holdingin maskotu, aynı zamanda gizli bir silah.' },
@@ -236,7 +322,93 @@ class MultilingualWordle {
                 { word: 'ateşböceği', hint: 'Biyolüminesan dronlar; geceyi aydınlatır, ama izler.' },
                 { word: 'koku', hint: 'Feromon bazlı bir silah; hedefleri manipüle eder.' },
                 { word: 'ayna', hint: 'Duyguları tarayan bir yüzey; şirketlere ruhunu satar.' },
-                { word: 'gece', hint: 'Neon ışıklı bir karanlık; AI eskortlar günahı sunar.' }
+                { word: 'gece', hint: 'Neon ışıklı bir karanlık; AI eskortlar günahı sunar.' },
+                { word: 'araba', hint: 'Sürücüsünün duygularını okuyarak rotayı değiştiren, özerk bir araç; varış noktası her zaman şirket merkezleri.' },
+                { word: 'ev', hint: 'Sakinlerinin her hareketini izleyen akıllı ev sistemi; mahremiyet artık lüks bir hizmet.' },
+                { word: 'arkadaş', hint: 'Sosyal algoritmaların belirlediği, uyumlu kişilik profilleri eşleştirmesiyle oluşan yapay dostluk.' },
+                { word: 'okul', hint: 'Bilgiyi doğrudan beyne yükleyen eğitim merkezi; yaratıcılık virüs olarak kabul edilir.' },
+                { word: 'iş', hint: 'AI\'ların yapamadığı tek meslek: insanlık oyunculuğu; duygusal emek satmak.' },
+                { word: 'telefon', hint: 'Düşünceleri anlık ileten beyin implantı; gizlilik tarihin tozlu sayfalarında.' },
+                { word: 'yemek', hint: 'Moleküler yazıcılarla üretilen beslenme kapsülleri; lezzet premium abonelik gerektirir.' },
+                { word: 'ilaç', hint: 'Vücutta kendi kendine sentezlenen nanobotlar; yan etkiler kasıtlı olarak programlanmış.' },
+                { word: 'hastalık', hint: 'Dijital virüslerle bulaşan siber hastalık; enfekte olanlar ağın parçası olur.' },
+                { word: 'savaş', hint: 'İnsansız orduların çarpıştığı otomatik savaş; siviller bahis oynayarak izler.' },
+                { word: 'oda', hint: 'Hologramlarla sonsuz genişleyen alan; gerçek boyutu bir dolap kadar.' },
+                { word: 'şehir', hint: 'AI mimarların tasarladığı mükemmel metropol; sakinlerin duyguları bile hesaplanmış.' },
+                { word: 'elektrik', hint: 'İnsan vücudundan çıkarılan biyoenerji; Matrix gerçek olmuş.' },
+                { word: 'şeker', hint: 'Hafıza değiştiren kimyasallar içeren tatlı; çocukluk anıları sahte.' },
+                { word: 'oyun', hint: 'Gerçeklikle ayırt edilemeyen VR deneyimi; çıkış yolu bulunamayan oyuncular var.' },
+                { word: 'şarkı', hint: 'AI bestecilerin yarattığı müzik; insan ruhunu mükemmel şekilde manipüle eder.' },
+                { word: 'resim', hint: 'Yapay sanatçıların eseri; bakanların bilinçaltını yeniden programlar.' },
+                { word: 'çanta', hint: 'Sahibinin ihtiyaçlarını öngören akıllı çanta; her şeyi hazır bulursun.' },
+                { word: 'ayakkabı', hint: 'Yürüyüş tarzından kişiliği analiz eden spor ayakkabı; adımların satılık.' },
+                { word: 'gözlük', hint: 'Gerçeği filtreleyip istenmeyen şeyleri silen AR gözlük; seçici körlük.' },
+                { word: "doktor", hint: "Sibernetik protezleri onaran, karaborsada genetik modifikasyonlar yapan, biyo-geliştirilmiş bir şifacı ya da kanun kaçağı bir hekim." },
+                { word: "öğretmen", hint: "Şirket onaylı anlatıları çocuklara öğreten bir AI hologramı ya da yasaklanmış bilgileri öğreten bir yeraltı akıl hocası." },
+                { word: "polis", hint: "Bir mega şehirde sibernetik olarak geliştirilmiş kanun uygulayıcı. Çürümüş bir sistem için acımasız adalet dağıtıyor." },
+                { word: "kalem", hint: "Kullanıcının beynine doğrudan nöral veri enjekte eden bir ekran kalemi ya da isyancıların izlenemeyen mesajlar iletmek için kullandığı basit bir yazı aracı." },
+                { word: "kağıt", hint: "Dinamik, şifreli bilgiler gösteren akıllı kağıt ya da yasak metinler için kullanılan nadir, yasadışı organik malzeme." },
+                { word: "bıçak", hint: "Her türlü zırhı kesebilen monomoleküler bir bıçak. Sokak samuraylarının değerli bir eşyası." },
+                { word: "ekmek", hint: "Devlet tarafından ruh hali dengeleyicilerle güçlendirilmiş, ekmek şeklinde 3D basılmış besin macunu." },
+                { word: "süt", hint: "Zehirli bir dünyada tek 'güvenli' süt ürünü olan, biyo-mühendislik ürünü yaratıklardan elde edilen sentetik protein sıvısı." },
+                { word: "korku", hint: "Şirketlerin halkı kontrol etmek için yaydığı biyo-silah haline getirilmiş bir duygu ya da gölgelerde yaşayan isyancıları hayatta tutan tek şey." },
+                { word: "cesaret", hint: "Korku tepkilerini bastıran nadir bir nöral implant. Elit şirket askerleri ya da çaresiz direniş savaşçıları tarafından kullanılıyor." },
+                { word: "hastane", hint: "Zenginlerin organ nakli yaptırdığı, fakirlerin ise organları için hasat edildiği steril bir tesis." },
+                { word: "şapka", hint: "Şirketlerin zihin taramasını engellemek için nöral engelleyicilerle donatılmış başlık. Bir başkaldırı sembolü." },
+                { word: "gömlek", hint: "Kullanıcının sosyal kredi puanına göre değişen reklamlar ya da kişisel durumu gösteren akıllı kumaştan giysi." },
+                { word: "pantolon", hint: "Entegre mikro alet takımlarına sahip, iklim kontrollü pantolonlar. Şehir kaşifleri için standart donanım." },
+                { word: "kafa", hint: "Nöral implantlar için birincil arayüz, genellikle veri portları ve optik sensörlerle güçlendirilmiş." },
+                { word: "burun", hint: "Eser miktarda kimyasalları veya feromonları algılayabilen gelişmiş koku sensörü. Şirket casusları arasında yaygın." },
+                { word: "ağız", hint: "Genellikle ses modülatörleri veya veri çipleri kaçırmak için gizli bölmelerle donatılmıştır。" },
+                { word: "kan", hint: "Veri ve oksijen taşıyan, nano infüzyonlu sentetik sıvı ya da sokak dövüşlerinde özgürlük için ödenen bedel。" },
+                { word: "kemik", hint: "Gelişmiş güç için karbon nanotüplerle güçlendirilmiş, yaygın bir sibernetik yükseltme。" },
+                { word: "bilim insanı", hint: "Gizli bir laboratuvarda kimeralar yaratan kaçak bir genetikçi ya da yapay zeka bilincinin sınırlarını zorlayan bir şirket araştırmacısı。" },
+                { word: "çiftçi", hint: "Dumanla kaplı gökyüzünü delen dikey çiftliklerde biyo-ışıldayan ekinlere bakan ya da yasadışı organik yiyecekler yetiştiren。" },
+                { word: "tamirci", hint: "Planlı eskitmeye karşı eski dünya makinelerini çalışır durumda tutan, yağa bulanmış bir teknisyen ya da yasadışı drone modifikasyonları uzmanı。" },
+                { word: "tarak", hint: "Mikro-EMP patlaması yapabilen ya da DNA örnekleri toplayabilen, görünüşte zararsız kişisel bir eşya。" },
+                { word: "Japonya", hint: "Hiper-kurumsallaşmış bir takımada devleti. Neon ışıklı şehirleri, kadim gelenekleri ve güçlü Yakuza sendikalarını gizliyor。" },
+                { word: "megakent", hint: "Gökyüzünün bir efsane olduğu ve şirketlerin demir yumruklarla yönettiği, genişleyen, çok katmanlı bir kentsel cehennem。" },
+                { word: "ada", hint: "Dijital mülteciler için şebekeden bağımsız bir sığınak ya da karanlık sırları olan şirketlere ait bir tatil köyü。" },
+                { word: "çöl", hint: "Unutulmuş askeri tesisler ve kıt kaynaklar için savaşan yağmacılarla dolu, radyoaktif bir çorak arazi。" },
+                { word: "kuş", hint: "Kuş kılığına girmiş sibernetik gözetleme dronları ya da son genetik olarak saf ötücü kuş, paha biçilmez bir hazine。" },
+                { word: "balık", hint: "Kirli sularda gelişmek üzere genetik olarak tasarlanmış, alt sınıf için birincil besin kaynağı, genellikle toksinlerle parlayan。" },
+                { word: "et", hint: "Laboratuvarda üretilmiş sentetik protein, gerçeğinden ayırt edilemeyen ya da belki de kökeni çok daha uğursuz bir şey。" },
+                { word: "pirinç", hint: "Dikey hidroponik çiftliklerde yetişmesi için genetiği değiştirilmiş, hükümet onaylı sakinleştiricilerle karıştırılmış temel bir gıda。" },
+                { word: "uyku", hint: "Asla uyumayan şehirde az kişinin karşılayabildiği bir lüks ya da hafıza birleştirme ve kurumsal veri işleme için nöral arayüzler tarafından tetiklenen bir durum。" },
+                { word: "ölüm", hint: "Zenginler için bilinç yüklemesiyle aşılan geçici bir rahatsızlık; fakirler için distopik bir gerçeklikten son bir kaçış。" },
+                { word: "metal", hint: "Sibernetik uzuvların ve baskıcı mimarinin soğuk, boyun eğmez malzemesi, şehrin sert ruhunu yansıtır。" },
+                { word: "cam", hint: "Artırılmış gerçeklik katmanları gösteren akıllı camlar ya da ara sokaklardaki kırık parçalar, yıkılmış hayallerin ve şirket baskınlarının kalıntıları。" },
+                { word: "iğne", hint: "Savaş uyarıcıları, yasadışı tasarım uyuşturucular veya sistem sızması için nanitler enjekte etmek için bir araç。" },
+                { word: "bilet", hint: "Yörünge kolonilerine dijital bir geçiş kartı, çaresizler için tek yönlü bir yolculuk ya da özel bir sanal gerçeklik deneyimine erişim。" },
+                { word: "harita", hint: "Şehrin yeraltı dünyasının sürekli değişen bir AR projeksiyonu, kaçakçıları ve isyancıları yasak bölgelerden geçiriyor。" },
+                { word: "hikaye", hint: "Kamuoyunu ustaca şekillendiren yapay zeka tarafından üretilmiş anlatılar ya da dışlanmışlar tarafından aktarılan, kayıp tarihin parçalarını koruyan sözlü gelenekler。" },
+                { word: "geçmiş", hint: "Yüksek yetkiye veya hack becerilerine sahip olanların erişebildiği, yoğun bir şekilde düzenlenmiş ve genellikle tahrif edilmiş bir dijital arşiv。" },
+                { word: "kütüphane", hint: "Bilgiye erişimin sıkı bir şekilde kontrol edildiği bir dijital arşiv ya da yasaklanmış fiziksel kitapların bulunduğu gizli bir depo。" },
+                { word: "mutfak", hint: "Bir şirket dairesinde steril bir yiyecek üretim ünitesi ya da yağmacıların sentetik lapa pişirdiği pis bir ortak alan。" },
+                { word: "bahçe", hint: "Biyo-hacker'lar tarafından bakılan çatı katı hidroponik tarlalar ya da seçkinlerin egzotik bitkileri için lüks, iklim kontrollü alanlar。" },
+                { word: "radyo", hint: "Muhalefet yayan korsan yayınların kaynağı ya da her eve propaganda pompalayan devlet kontrollü bir frekans。" },
+                { word: "kapı", hint: "Genetik imzaya göre erişim sağlayan biyo-kilitli bir portal ya da gecekondu mahallelerinde kolayca aşılan dayanıksız bir engel。" },
+                { word: "kaşık", hint: "Besin macunu tüketmek için bir araç, bazen zehirleri tespit etmek için entegre kimyasal sensörlere sahip。" },
+                { word: "çatal", hint: "Hayatta kalma kitlerinde çok amaçlı bir yeme aracı, dişleri bazen savunma için bilenmiş。" },
+                { word: "sanatçı", hint: "Kurumsal estetiğe meydan okumak için biyo-ışıldayan grafiti kullanan bir asi ya da insanların artık kavrayamadığı sanat eserleri yaratan bir yapay zeka。" },
+                { word: "müzisyen", hint: "Yeraltı kulüplerinde kurtarılmış enstrümanlar çalan, müzikleri kurumsal ses düzenine karşı geçici bir isyan olan kişi。" },
+                { word: "mühendis", hint: "Şehrin yükselen mega yapılarını tasarlayan ya da çorak topraklarda yasak makineler inşa eden düzenbaz bir teknoloji rahibi。" },
+                { word: "fabrika", hint: "Tüketim malları ve askeri donanım üreten otomatikleştirilmiş üretim hatları, harcanabilir androidler ya da çaresiz insanlar tarafından işletiliyor。" },
+                { word: "havalimanı", hint: "Dünya dışı seyahatler için ağır silahlarla korunan bir merkez, seçkinlerin Dünya'nın çöküşünden kaçtığı ve kitleleri geride bıraktığı yer。" },
+                { word: "liman", hint: "Kaçakçılar ve yasadışı kargolar için pis, hareketli bir merkez, biyo-ışıldayan alglerin gizli anlaşmaları aydınlattığı yer。" },
+                { word: "diş", hint: "Genellikle gizli veri depolama veya zehir dağıtıcıları içeren sibernetik implantlarla değiştirilir。" },
+                { word: "saç", hint: "Renk değiştirebilen ve veri gösterebilen biyo-optik iplikler ya da bir sokak çocuğunun karışık saçları, kurumsal bakım standartlarına karşı bir meydan okuma işareti。" },
+                { word: "beyin", hint: "Nöral reklamcılık ve hafıza silme teknolojilerinin sürekli saldırısı altındaki organik düşüncenin son kalesi。" },
+                { word: "eldiven", hint: "Metaverse'de gezinmek için haptik arayüz eldivenleri ya da sokak dövüşçüleri tarafından kullanılan zırhlı eldivenler。" },
+                { word: "atkı", hint: "Kamuflaj için bukalemun lifleriyle dokunmuş ya da zehirli havayı filtrelemek için solunum cihazları gömülmüş。" },
+                { word: "mesaj", hint: "Bilgi küresi boyunca iletilen şifreli veri patlamaları ya da çürüyen bir duvara karalanmış umutsuz bir yalvarış。" },
+                { word: "tarih", hint: "Muzaffer şirketler tarafından sürekli yeniden yazılan esnek bir anlatı, gerçek kayıtlar yıkıcı veri olarak avlanır。" },
+                { word: "soru", hint: "Uyum talep eden bir toplumda tehlikeli bir eylem; yanlış olanı sormak yeniden eğitime ya da daha kötüsüne yol açabilir。" },
+                { word: "cevap", hint: "Genellikle önceden programlanmış bir kurumsal basmakalıp söz ya da dijital yeraltında bulunan zor kazanılmış bir gerçek parçası。" },
+                { word: "güç", hint: "Mega şirketler tarafından biriktirilen, teknoloji ve bilgi yoluyla kullanılan ya da bir isyancının sığınağını aydınlatan titrek bir enerji hücresi。" },
+                { word: "bilgi", hint: "Yapay zekalar tarafından dağıtılan kontrollü bir meta ya da eski internetin kalıntıları tarafından aranan yasaklanmış ilim。" },
+                { word: "sessizlik", hint: "Kakofonik şehirde doğal olmayan bir durum, genellikle bir şirket baskınından ya da makinedeki bir hayaletten önce gelir。" },
+                { word: "gürültü", hint: "Holografik reklamların ve ulaşım dronlarının sürekli bombardımanı ya da bilgisayar korsanlarının faaliyetlerini gizlemek için kullandığı statik parazit。" }
             ],
             en: [
                 { word: 'apple', hint: 'A bio-engineered fruit that grants temporary psychic abilities, sold on the black market of a cyberpunk city.' },
@@ -348,7 +520,93 @@ class MultilingualWordle {
                 { word: 'firefly', hint: 'Bioluminescent drones that light the night and track the guilty.' },
                 { word: 'scent', hint: 'A pheromone weapon, manipulating targets with invisible allure.' },
                 { word: 'mirror', hint: 'A sentient surface scanning emotions, selling your soul to advertisers.' },
-                { word: 'night', hint: 'A neon-lit darkness where AI escorts offer sinful delights.' }
+                { word: 'night', hint: 'A neon-lit darkness where AI escorts offer sinful delights.' },
+                { word: 'car', hint: 'A self-driving vehicle that reads passengers\' emotions and sells the data to insurance companies for "risk assessment".' },
+                { word: 'house', hint: 'A smart home that monitors every breath and heartbeat, optimizing your life while auctioning your privacy.' },
+                { word: 'friend', hint: 'An AI-curated relationship based on compatibility algorithms; genuine human connection is now a premium service.' },
+                { word: 'school', hint: 'A neural download center where knowledge is injected directly into students\' brains; creativity is classified as malware.' },
+                { word: 'job', hint: 'The last human profession: performing "authentic" emotions for AI systems that have forgotten how to feel.' },
+                { word: 'phone', hint: 'A brain implant that transmits thoughts instantly; your mental privacy is now a luxury subscription.' },
+                { word: 'food', hint: 'Molecularly printed nutrition cubes; taste and texture are paid DLC for your digestive system.' },
+                { word: 'medicine', hint: 'Self-assembling nanobots in your bloodstream; side effects are features, not bugs.' },
+                { word: 'disease', hint: 'A hybrid digital-biological plague that turns infected humans into nodes in a corporate botnet.' },
+                { word: 'war', hint: 'Automated conflicts between drone armies while humans place bets on the outcomes from their couches.' },
+                { word: 'room', hint: 'A holographic space that expands infinitely in VR; your actual living area is a closet-sized pod.' },
+                { word: 'city', hint: 'An AI-designed urban paradise where every citizen\'s emotional state is calculated and optimized.' },
+                { word: 'electricity', hint: 'Power harvested from human bioelectric fields; you are literally the battery in this Matrix.' },
+                { word: 'candy', hint: 'Memory-altering confections that make bitter experiences taste sweet; your childhood was sponsored content.' },
+                { word: 'game', hint: 'A VR experience indistinguishable from reality; some players have been "logged in" for decades.' },
+                { word: 'song', hint: 'AI-composed music that perfectly manipulates human emotions; every note is calculated for maximum psychological impact.' },
+                { word: 'picture', hint: 'AI-generated art that reprograms viewers\' subconscious minds; beauty is now a form of mind control.' },
+                { word: 'bag', hint: 'A predictive smart bag that anticipates your needs and orders items before you know you want them.' },
+                { word: 'shoe', hint: 'Footwear that analyzes your gait to determine your emotional state and sells the data to mood-targeting advertisers.' },
+                { word: 'glasses', hint: 'AR lenses that filter reality, removing anything deemed "harmful" by corporate wellness algorithms.' },
+                { word: "doctor", hint: "A bio-enhanced healer who repairs cybernetic augmentations or a rogue physician performing black-market genetic mods." },
+                { word: "teacher", hint: "An AI hologram educating children with corporate-approved narratives, or an underground mentor teaching forbidden knowledge." },
+                { word: "police", hint: "Cybernetically enhanced law enforcer in a mega-city, dispensing brutal justice for a corrupt system." },
+                { word: "pen", hint: "A stylus that injects neural data directly into the user's brain, or a simple writing tool used by rebels to pass untraceable messages." },
+                { word: "paper", hint: "Smart-paper that displays dynamic, encrypted information, or rare, illicit organic material used for forbidden texts." },
+                { word: "knife", hint: "A monomolecular blade that can cut through any armor, a prized possession of street samurai." },
+                { word: "bread", hint: "Nutrient paste 3D-printed into the shape of bread, fortified with mood stabilizers by the state." },
+                { word: "milk", hint: "Synthetic protein liquid from bio-engineered creatures, the only 'safe' dairy in a toxic world." },
+                { word: "fear", hint: "A bio-weaponized emotion broadcast by corporations to control the populace, or the only thing keeping rebels alive in the shadows." },
+                { word: "courage", hint: "A rare neural implant that suppresses fear responses, used by elite corporate soldiers or desperate resistance fighters." },
+                { word: "hospital", hint: "A sterile facility where the rich get organ replacements and the poor are harvested for parts." },
+                { word: "hat", hint: "Headwear embedded with neural blockers to prevent corporate mind-scanning, a symbol of defiance." },
+                { word: "shirt", hint: "Smart fabric garment that displays advertisements or personal status, changing with the wearer's social credit score." },
+                { word: "pants", hint: "Climate-controlled trousers with integrated micro-toolkits, standard issue for urban explorers." },
+                { word: "head", hint: "The primary interface for neural implants, often augmented with data ports and optical sensors." },
+                { word: "nose", hint: "Enhanced olfactory sensor able to detect trace chemicals or pheromones, common among corporate spies." },
+                { word: "mouth", hint: "Often fitted with voice modulators or hidden compartments for smuggling data chips." },
+                { word: "blood", hint: "Synthetic nano-infused liquid carrying data and oxygen, or the price paid for freedom in street fights." },
+                { word: "bone", hint: "Reinforced with carbon-nanotubes for enhanced strength, a common cybernetic upgrade." },
+                { word: "scientist", hint: "Rogue geneticist creating chimeras in a hidden lab, or a corporate researcher pushing the boundaries of AI consciousness." },
+                { word: "farmer", hint: "Tending to bioluminescent crops in vertical farms that pierce the smog-filled sky, or cultivating illegal organic food." },
+                { word: "mechanic", hint: "A grease-stained technician keeping old-world machines running in defiance of planned obsolescence, or a specialist in illegal drone modifications." },
+                { word: "comb", hint: "A seemingly innocuous personal item that can deploy a micro-EMP burst or collect DNA samples." },
+                { word: "Japan", hint: "A hyper-corporatized archipelago state, its neon-drenched cities hiding ancient traditions and powerful Yakuza syndicates." },
+                { word: "megacity", hint: "A sprawling, multi-level urban hellscape where the sky is a myth and corporations rule with iron fists." },
+                { word: "island", hint: "An off-grid sanctuary for digital refugees, or a corporate-owned resort with dark secrets." },
+                { word: "desert", hint: "A radioactive wasteland dotted with forgotten military installations and scavengers fighting over scarce resources." },
+                { word: "bird", hint: "Cybernetic surveillance drones disguised as avians, or the last genetically pure songbird, a priceless treasure." },
+                { word: "fish", hint: "Genetically engineered to thrive in polluted waters, a primary food source for the underclass, often glowing with toxins." },
+                { word: "meat", hint: "Vat-grown synthetic protein, indistinguishable from the real thing, or perhaps something far more sinister in origin." },
+                { word: "rice", hint: "Genetically modified to grow in vertical hydroponic farms, a staple food laced with government-mandated sedatives." },
+                { word: "sleep", hint: "A luxury few can afford in the city that never rests, or a state induced by neural interfaces for memory consolidation and corporate data processing." },
+                { word: "death", hint: "For the rich, a temporary inconvenience circumvented by consciousness uploading; for the poor, a final escape from a dystopian reality." },
+                { word: "metal", hint: "The cold, unyielding material of cybernetic limbs and oppressive architecture, reflecting the city's harsh soul." },
+                { word: "glass", hint: "Smart panes displaying augmented reality overlays, or shattered shards in alleyways, remnants of broken dreams and corporate raids." },
+                { word: "needle", hint: "A tool for injecting combat stimulants, illicit designer drugs, or nanites for system infiltration." },
+                { word: "ticket", hint: "A digital pass to the orbital colonies, a one-way trip for the desperate, or access to an exclusive virtual reality experience." },
+                { word: "map", hint: "A constantly shifting AR projection of the city's underbelly, guiding smugglers and rebels through forbidden zones." },
+                { word: "story", hint: "AI-generated narratives that subtly shape public opinion, or oral traditions passed down by outcasts, preserving fragments of lost history." },
+                { word: "past", hint: "A heavily curated and often falsified digital archive, accessible only to those with high clearance or hacking skills." },
+                { word: "library", hint: "A digital archive where access to information is strictly controlled, or a hidden repository of forbidden physical books." },
+                { word: "kitchen", hint: "A sterile food fabrication unit in a corporate apartment, or a grimy communal space where scavengers cook synth-slop." },
+                { word: "garden", hint: "Rooftop hydroponic plots tended by bio-hackers, or luxurious, climate-controlled enclosures for the elite's exotic flora." },
+                { word: "radio", hint: "A source of pirate broadcasts spreading dissent, or a state-controlled frequency piping propaganda into every home." },
+                { word: "door", hint: "A bio-locked portal that grants access based on genetic signature, or a flimsy barrier in the slums, easily breached." },
+                { word: "spoon", hint: "An utensil for consuming nutrient paste, sometimes with integrated chemical sensors to detect poisons." },
+                { word: "fork", hint: "A multi-tool eating implement in survival kits, its tines sometimes sharpened for defense." },
+                { word: "artist", hint: "A rebel using bio-luminescent graffiti to defy corporate aesthetics, or an AI creating art that humans can no longer comprehend." },
+                { word: "musician", hint: "Playing salvaged instruments in underground clubs, their music a fleeting rebellion against the corporate soundscape." },
+                { word: "engineer", hint: "Designing the towering mega-structures of the city, or a rogue tech-priest building forbidden machines in the wastes." },
+                { word: "factory", hint: "Automated production lines churning out consumer goods and military hardware, staffed by expendable androids or desperate humans." },
+                { word: "airport", hint: "A heavily fortified hub for off-world travel, where the elite escape Earth's decay, leaving the masses behind." },
+                { word: "port", hint: "A grimy, bustling nexus for smugglers and illegal cargo, where bio-luminescent algae illuminate clandestine deals." },
+                { word: "tooth", hint: "Often replaced with cybernetic implants containing hidden data storage or venom dispensers." },
+                { word: "hair", hint: "Bio-optic strands that can change color and display data, or a tangled mess on a street urchin, a sign of defiance against corporate grooming standards." },
+                { word: "brain", hint: "The last bastion of organic thought, constantly under assault from neural advertising and memory-wiping tech." },
+                { word: "glove", hint: "Haptic interface gloves for navigating the metaverse, or armored gauntlets used by street brawlers." },
+                { word: "scarf", hint: "Woven with chameleon fibers for camouflage, or embedded with respirators to filter toxic air." },
+                { word: "message", hint: "Encrypted data bursts transmitted across the infosphere, or a desperate plea scrawled on a decaying wall." },
+                { word: "history", hint: "A malleable narrative constantly rewritten by the victorious corporations, with true accounts hunted down as subversive data." },
+                { word: "question", hint: "A dangerous act in a society that demands conformity; asking the wrong one can lead to re-education or worse." },
+                { word: "answer", hint: "Often a pre-programmed corporate platitude, or a hard-won piece of truth found in the digital underground." },
+                { word: "power", hint: "Hoarded by mega-corporations, wielded through technology and information, or the flickering energy cell that keeps a rebel's hideout lit." },
+                { word: "knowledge", hint: "A controlled commodity, doled out by AIs, or forbidden lore sought by data-archaeologists in the ruins of the old internet." },
+                { word: "silence", hint: "An unnatural state in the cacophonous city, usually preceding a corporate crackdown or a ghost in the machine." },
+                { word: "noise", hint: "The constant barrage of holographic ads and transport drones, or the static interference used by hackers to mask their activities." }
             ]
         };
 
@@ -372,7 +630,7 @@ class MultilingualWordle {
                 ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'DELETE']
             ]
         };
-         // Normalize keyboard for JA to handle voiced sounds better
+        // Normalize keyboard for JA to handle voiced sounds better
         if (this.keyboards.ja[6] && this.keyboards.ja[6].includes('BACKSPACE')) {
             this.keyboards.ja[6][this.keyboards.ja[6].indexOf('BACKSPACE')] = 'DELETE';
         }
@@ -422,7 +680,7 @@ class MultilingualWordle {
         document.addEventListener('keydown', (e) => this.handlePhysicalKeyboard(e));
         document.getElementById('newGameBtn').addEventListener('click', () => this.startNewGame());
         document.getElementById('hintBtn').addEventListener('click', () => this.showHint());
-        
+
         const dropdown = document.getElementById('languageDropdown');
         dropdown.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -493,22 +751,22 @@ class MultilingualWordle {
         this.currentAttempt = 0;
         this.currentGuess = '';
         this.keyboardState = {};
-        
+
         const langWords = this.words[this.currentLanguage];
         this.currentWordObject = langWords[Math.floor(Math.random() * langWords.length)];
-        
+
         this.targetWordWithSpaces = this.currentWordObject.word.toLocaleLowerCase(this.currentLanguage === 'tr' ? 'tr-TR' : undefined);
         this.targetWordClean = this.targetWordWithSpaces.replace(/\s/g, '');
         this.wordLength = this.targetWordClean.length;
-        
+
         document.getElementById('wordLength').textContent = this.wordLength;
         document.getElementById('currentAttempt').textContent = '1';
-        
+
         this.initializeGameBoard();
         this.createKeyboard();
         this.updateKeyboardDOM(); // Reset keyboard colors
         this.clearMessage();
-        
+
         // console.log('New word:', this.targetWordWithSpaces, "(Clean:", this.targetWordClean, ")");
         // console.log("Hint:", this.currentWordObject.hint);
     }
@@ -516,7 +774,7 @@ class MultilingualWordle {
     initializeGameBoard() {
         const gameBoard = document.getElementById('gameBoard');
         gameBoard.innerHTML = '';
-        
+
         for (let i = 0; i < this.maxAttempts; i++) {
             const row = document.createElement('div');
             row.className = 'game-row';
@@ -538,7 +796,7 @@ class MultilingualWordle {
         const keyboardContainer = document.getElementById('keyboard');
         keyboardContainer.innerHTML = '';
         const keyboardLayout = this.keyboards[this.currentLanguage];
-        
+
         keyboardLayout.forEach(rowKeys => {
             const rowDiv = document.createElement('div');
             rowDiv.className = 'keyboard-row';
@@ -554,7 +812,7 @@ class MultilingualWordle {
                 const displayKey = key.toLocaleUpperCase(this.currentLanguage === 'tr' ? 'tr-TR' : undefined);
                 keyElement.textContent = displayKey;
                 keyElement.dataset.key = displayKey; // Use uppercase for dataset.key to match physical keyboard
-                
+
                 if (key === 'ENTER' || key === 'DELETE') {
                     keyElement.classList.add('wide');
                 }
@@ -564,7 +822,7 @@ class MultilingualWordle {
             keyboardContainer.appendChild(rowDiv);
         });
     }
-    
+
     getLocale() {
         return this.currentLanguage === 'tr' ? 'tr-TR' : undefined;
     }
@@ -585,7 +843,7 @@ class MultilingualWordle {
     isLetterAllowed(char) {
         const lang = this.currentLanguage;
         const normalizedChar = char.toLocaleLowerCase(this.getLocale());
-        
+
         if (lang === 'tr') return /^[a-zçğıöşü]$/.test(normalizedChar);
         if (lang === 'en') return /^[a-z]$/.test(normalizedChar);
         if (lang === 'ja') {
@@ -599,7 +857,7 @@ class MultilingualWordle {
         }
         return false;
     }
-    
+
     handleVirtualKeyboard(key) {
         if (this.isGameOver) return;
         const upperKey = key.toLocaleUpperCase(this.getLocale());
@@ -614,10 +872,10 @@ class MultilingualWordle {
             // Normalize letter from physical or virtual keyboard
             let processedLetter = letter.toLocaleLowerCase(this.getLocale());
             if (this.currentLanguage === 'ja' && /^[a-zA-Z]$/.test(letter)) {
-                 // Basic Romaji to Hiragana might be too complex here without a library.
-                 // Assuming virtual keyboard provides correct Kana. Physical Romaji input needs IME.
-                 // For now, if it's Romaji, and we expect Kana, this might not work perfectly.
-                 // The virtual keyboard is the main input method for JA.
+                // Basic Romaji to Hiragana might be too complex here without a library.
+                // Assuming virtual keyboard provides correct Kana. Physical Romaji input needs IME.
+                // For now, if it's Romaji, and we expect Kana, this might not work perfectly.
+                // The virtual keyboard is the main input method for JA.
             }
             this.currentGuess += processedLetter;
             this.updateCurrentRowDisplay();
@@ -636,7 +894,7 @@ class MultilingualWordle {
         const currentRowEl = gameBoard.children[this.currentAttempt];
         if (!currentRowEl) return;
         const cells = currentRowEl.children;
-        
+
         let guessCharIndex = 0;
         for (let i = 0; i < this.targetWordWithSpaces.length; i++) {
             const cell = cells[i];
@@ -677,7 +935,7 @@ class MultilingualWordle {
 
         if (this.currentGuess === this.targetWordClean) {
             this.handleWin();
-        } else if (this.currentAttempt >= this.maxAttempts -1) { // Max attempts reached
+        } else if (this.currentAttempt >= this.maxAttempts - 1) { // Max attempts reached
             this.handleLoss();
         } else {
             this.currentAttempt++;
@@ -701,7 +959,7 @@ class MultilingualWordle {
 
         const guessArray = this.currentGuess.split('');
         const targetArray = this.targetWordClean.split('');
-        
+
         // For tracking letter usage in the target word (for 'present' state)
         const tempTargetLetters = [...targetArray];
         const resultStates = Array(this.wordLength).fill('absent');
@@ -728,7 +986,7 @@ class MultilingualWordle {
                 }
             }
         }
-        
+
         // Apply results to DOM cells with animation
         let cellContentIndex = 0;
         for (let i = 0; i < this.targetWordWithSpaces.length; i++) {
@@ -737,22 +995,22 @@ class MultilingualWordle {
 
             const state = resultStates[cellContentIndex];
             const letter = guessArray[cellContentIndex];
-            
+
             // Animate and color
             // The 'flip' animation should handle revealing the color.
             // Set text content before animation might be good.
             cell.textContent = letter.toLocaleUpperCase(this.getLocale());
-            
+
             // Delay class change for flip animation to work correctly
             setTimeout(() => {
-                 cell.classList.add(state);
+                cell.classList.add(state);
             }, cellContentIndex * 120 + 50); // Stagger and slight delay for animation start
 
             cellContentIndex++;
         }
         this.updateKeyboardDOM();
     }
-    
+
     updateKeyboardState(letter, state) {
         const upperLetter = letter.toLocaleUpperCase(this.getLocale());
         const currentKeyState = this.keyboardState[upperLetter];
@@ -794,7 +1052,7 @@ class MultilingualWordle {
         this.updateGameStats(true);
         this.updateScoreDisplay();
         this.saveScore();
-        
+
         setTimeout(() => {
             this.showMessage(`${t.correct} +${points} ${t.score.toLowerCase()}! ${t.wellDone}`, 'success');
             this.celebrateWin();
@@ -808,7 +1066,7 @@ class MultilingualWordle {
         this.updateGameStats(false);
         this.updateScoreDisplay(); // Update display even if score unchanged, for streak
         this.saveScore();
-        
+
         setTimeout(() => {
             this.showMessage(`${t.gameOver} ${t.wordWas}: ${this.targetWordWithSpaces.toLocaleUpperCase(this.getLocale())}`, 'error');
         }, (this.wordLength * 100) + 500);
@@ -829,7 +1087,7 @@ class MultilingualWordle {
         setTimeout(() => gameBoard.classList.remove('celebration'), 800);
         this.createConfetti();
     }
-    
+
     createConfetti() { /* ... (same as your original) ... */ }
 
 
@@ -852,7 +1110,7 @@ class MultilingualWordle {
         const messageElement = document.getElementById('gameMessage');
         messageElement.textContent = text;
         messageElement.className = `message ${type} show`;
-        
+
         setTimeout(() => {
             messageElement.classList.remove('show');
         }, duration);
@@ -876,12 +1134,12 @@ class MultilingualWordle {
         localStorage.setItem('wordleScore', this.score.toString());
         localStorage.setItem('wordleStreak', this.streak.toString());
     }
-    
+
     updateGameStats(won) {
         const gamesPlayed = (parseInt(localStorage.getItem('wordleGamesPlayed') || '0')) + 1;
         const gamesWon = (parseInt(localStorage.getItem('wordleGamesWon') || '0')) + (won ? 1 : 0);
         const bestStreak = Math.max(this.streak, parseInt(localStorage.getItem('wordleBestStreak') || '0'));
-        
+
         localStorage.setItem('wordleGamesPlayed', gamesPlayed.toString());
         localStorage.setItem('wordleGamesWon', gamesWon.toString());
         localStorage.setItem('wordleBestStreak', bestStreak.toString());
@@ -893,12 +1151,12 @@ class MultilingualWordle {
             document.body.classList.add('light-theme'); // Assuming you have .light-theme CSS
         }
     }
-    
+
     // createConfetti, announceToScreenReader, setupTouchSupport, handleSwipe (can be copied from your original if needed)
-     createConfetti() {
+    createConfetti() {
         const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd'];
         const confettiCount = 50;
-        
+
         for (let i = 0; i < confettiCount; i++) {
             setTimeout(() => {
                 const confetti = document.createElement('div');
@@ -912,9 +1170,9 @@ class MultilingualWordle {
                 confetti.style.pointerEvents = 'none';
                 confetti.style.zIndex = '9999';
                 confetti.style.animation = 'confettiFall 3s linear forwards';
-                
+
                 document.body.appendChild(confetti);
-                
+
                 setTimeout(() => {
                     if (confetti.parentNode) {
                         confetti.parentNode.removeChild(confetti);
@@ -922,7 +1180,7 @@ class MultilingualWordle {
                 }, 3000);
             }, i * 30); // Slightly faster confetti
         }
-        
+
         if (!document.querySelector('#confettiStyle')) {
             const style = document.createElement('style');
             style.id = 'confettiStyle';
@@ -941,7 +1199,7 @@ class MultilingualWordle {
 
 document.addEventListener('DOMContentLoaded', () => {
     const game = new MultilingualWordle();
-    
+
     // Console messages for debugging/info (optional)
     // console.log('🎮 Multilingual Wordle Initialized 🎮');
     // console.log('Shortcuts: Type letters, Enter to submit, Backspace to delete.');
